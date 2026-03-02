@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: etl_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Ronit123
+      POSTGRES_DB: etl_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    container_name: etl_pipeline
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
