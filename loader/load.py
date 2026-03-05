@@ -1,13 +1,13 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine,text
 from config.config import DATABASE_URL
 from logger.logger import setup_logger
 
 logger = setup_logger()
-
+# //removed the "/"
 def load(df):
     engine = create_engine(DATABASE_URL)
     upsert_query = text(""" 
-        INSERT INTO employees (id, name, salary)\
+        INSERT INTO employees (id, name, salary)
         VALUES( :id, :name, :salary)
         ON CONFLICT (id)
         DO UPDATE SET
